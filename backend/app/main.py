@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from app.core.config import settings
 from app.core.db import Base, engine
-from app.routes import system
+from app.routes import system, ticket
 
 
 @asynccontextmanager
@@ -25,6 +25,7 @@ app = FastAPI(
 )
 
 app.include_router(router=system.router, prefix="", tags=["system"])
+app.include_router(router=ticket.router, prefix="", tags=["ticket"])
 
 
 if __name__ == "__main__":

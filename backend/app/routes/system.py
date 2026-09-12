@@ -8,7 +8,7 @@ from app.core.db import DBSession
 router = APIRouter()
 
 
-@router.get("/api", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK)
 def read_root():
     return JSONResponse({
         "name": settings.project_name,
