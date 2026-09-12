@@ -11,5 +11,8 @@ class Settings(BaseSettings):
     project_name: str = "Supportflow CRM"
     version: str = "1.0.0"
 
+    # Database
+    database_url: str = "sqlite+aiosqlite:///./crm.db"
+
 
 settings = Settings()
