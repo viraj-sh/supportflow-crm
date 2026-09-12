@@ -30,6 +30,7 @@ class Ticket(Base):
     subject: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[str] = mapped_column(String, nullable=False, default="Open")
+    priority: Mapped[str] = mapped_column(String, nullable=False, default="Medium")
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=datetime.now(UTC)
     )
