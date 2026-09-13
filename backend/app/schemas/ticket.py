@@ -19,7 +19,10 @@ class TicketCreate(BaseModel):
 
 class TicketResposne(BaseModel):
     ticket_id: str
-    priority: Priority | None = None
+    customer_name: str
+    subject: str
+    status: Status
+    priority: Priority
     created_at: datetime
 
 
@@ -29,7 +32,7 @@ class TicketDetailedResponse(BaseModel):
     customer_email: EmailStr
     subject: str
     description: str
-    status: Status | None = None
+    status: Status
     priority: str
     notes: list[NoteResponse] = []
 

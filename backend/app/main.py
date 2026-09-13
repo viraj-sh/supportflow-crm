@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.core.db import Base, engine
@@ -24,8 +25,15 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(router=system.router, prefix="", tags=["system"])
-app.include_router(router=ticket.router, prefix="", tags=["ticket"])
+app.add_middleware(
+    middleware_class=CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(router=system.router, prefix="/api", tags=["system"])
+app.include_router(router=ticket.router, prefix="/api", tags=["ticket"])
 
 
 if __name__ == "__main__":
