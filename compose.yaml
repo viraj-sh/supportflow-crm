@@ -1,0 +1,6 @@
+services:
+  supportflow-crm:
+    container_name: supportflow-crm
+    image: virajsh/supportflow-crm:latest
+    ports:
+      - 8888:8000
