@@ -1,4 +1,19 @@
+import os
+import sys
+
 from sqlalchemy import text
+
+
+def static_path() -> str:
+    if hasattr(sys, "_MEIPASS"):
+        base_dir = sys._MEIPASS  # type: ignore
+    elif os.path.basename(sys.executable).startswith("python"):
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    else:
+        base_dir = os.path.dirname(sys.executable)
+    return os.path.join(base_dir, "static")
+
 
 TICKET_ID_PREFIX = "TKT-"
 TICKET_ID_PREFIX_LEN = len(TICKET_ID_PREFIX)

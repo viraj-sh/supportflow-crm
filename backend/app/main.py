@@ -1,10 +1,14 @@
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.core.config import settings
 from app.core.db import Base, engine
+from app.core.utils import static_path
 from app.routes import system, ticket
 
 
@@ -31,12 +35,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+static_dir = static_path()
 app.include_router(router=system.router, prefix="/api", tags=["system"])
 app.include_router(router=ticket.router, prefix="/api", tags=["ticket"])
 
 
-if __name__ == "__main__":
-    import uvicorn
+print(
+    f"static_dir -> {static_dir} | exists? -> {os.path.isdir(static_dir)} | index.html exists? -> {os.path.isfile(os.path.join(static_dir, 'index.html'))}"
+)
 
-    uvicorn.run("app.main:app", host="0.0.0.0", port=5001, reload=True)
+if os.path.isdir(static_dir) and os.path.isfile(os.path.join(static_dir, "index.html")):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        return FileResponse(os.path.join(static_dir, "index.html"))
